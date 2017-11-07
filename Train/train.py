@@ -19,10 +19,12 @@ Example：
 """
 import requests
 from docopt import docopt
-from prettytable import PrettyTable
-
+from prettytable import PrettyTable, ALL, FRAME
+from colorama import init,Fore
 from station_name import stations
 from pprint import pprint
+
+init()
 
 class TrainsCollection:
 
@@ -75,10 +77,10 @@ class TrainsCollection:
 
             train = [
                 train_no,
-                '\n'.join([from_station_name,
-                to_station_name]),
-                '\n'.join([start_time,
-                arrive_time]),
+                '\n'.join([Fore.GREEN + from_station_name + Fore.RESET,
+                Fore.RED + to_station_name + Fore.RESET]),
+                '\n'.join([Fore.GREEN + start_time + Fore.RESET,
+                Fore.RED + arrive_time + Fore.RESET]),
                 time_fucked_up,
                 first_class_seat,
                 second_class_seat,
@@ -96,6 +98,8 @@ class TrainsCollection:
     def pretty_print(self):
         pt = PrettyTable()
         pt._set_field_names(self.header)
+        pt.padding_width = 3
+        pt.hrules = ALL
         for train in self.trains:
             pt.add_row(train)
         print(pt)
